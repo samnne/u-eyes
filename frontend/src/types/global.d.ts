@@ -2,7 +2,7 @@
 
 interface ClientMessageBase {
   type: string;
-  timeStamp: number; 
+  ts: number; 
 }
 
 
@@ -68,6 +68,7 @@ interface MetaMessage extends ServerMessageBase {
   type: "meta";
   latencyMs?: number;
   model?: string;
+  message: string;
   confidence?: number;
 }
 

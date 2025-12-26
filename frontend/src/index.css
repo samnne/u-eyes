@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@layer components {
+  
+
+
+  .neo-btn {
+    @apply block -translate-x-2 -translate-y-2  border-2 border-black px-4 py-2  transition-all  hover:-translate-y-3 active:translate-x-0 active:translate-y-0;
+  }
+}
