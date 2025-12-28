@@ -24,27 +24,56 @@ def parse_image(base_64_str: str):
 async def stream_response(prompt: str, image_base64: str) -> AsyncGenerator[dict, None]:
 
     image_bytes = base64.b64decode(parse_image(image_base64))
- 
-    inputs = [
-        genai.types.Part.from_text(
-            text= system_prompt
+    
+    # GEMINI 3 CONFIG: Define thinking depth and image quality
+    config = genai.types.GenerateContentConfig(
+        system_instruction=system_prompt,
+        thinking_config=genai.types.ThinkingConfig(
+            include_thoughts=True,
+         
+            thinking_budget=-1 
         ),
+        media_resolution=genai.types.MediaResolution(value="MEDIA_RESOLUTION_MEDIUM"), 
+    )
+
+    inputs = [
         genai.types.Part.from_text(text=prompt),
         genai.types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
     ]
 
-    stream = client.models.generate_content_stream(
-        model="gemini-2.5-flash", contents=inputs
+    stream = await client.aio.models.generate_content_stream(
+        model="gemini-3-flash-preview", 
+        contents=inputs,
+        config=config
     )
 
-    for chunk in stream:
-        if hasattr(chunk, "text"):
-      
-            yield {
-                "type": "token",
-                "text": chunk.text,
-                "serverTs": int(time.time() * 1000),
-            }
+    async for chunk in stream:
+        if chunk:
+            for part in chunk.candidates[0].content.parts:
+             
+                if part.thought:
+                    yield {
+                        "type": "thought",
+                        "text": part.text,
+                        "serverTs": int(time.time() * 1000),
+                    }
+                elif part.text:
+                    yield {
+                        "type": "token",
+                        "text": part.text,
+                        "serverTs": int(time.time() * 1000),
+                   
+                        "thought_signature": part.thought_signature if hasattr(part, 'thought_signature') else None
+                    }
+
+# async def func(prompt):
+#     async for message in stream_response(prompt, ""):
+#         print(message["type"]) 
+#         print(message["text"]) 
+#         print(message["serverTs"]) 
+#         if hasattr(message, "thought_signature"):
+#             print(message["thought_signature"]) 
+
 
 
 async def send_token(session: SessionState, prompt: str, frame_data: str, frame_ts: float = 0):
@@ -57,10 +86,11 @@ async def send_token(session: SessionState, prompt: str, frame_data: str, frame_
         {"type": "meta", "serverTs": int(time.time() * 1000) - frame_ts, "message": "gemini_stream_start"}
     )
 
-    # async for message in stream_response(prompt, frame_data):
+    async for message in stream_response(prompt, frame_data):
 
-    #     await session.websocket.send_json(message)
+        await session.websocket.send_json(message)
 
     await session.websocket.send_json(
         {"type": "meta", "serverTs": int(time.time() * 1000) - frame_ts, "message": "gemini_stream_complete"}
     )
+
