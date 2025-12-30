@@ -5,6 +5,7 @@ from api.session import SessionState
 import time
 from api.schemas import FrameMessage, QuestionMessage, ControlMessage
 from api.gemini import send_token
+from db.db import *
 from fastapi.responses import HTMLResponse
 
 
@@ -36,7 +37,8 @@ async def image_endpoint(websocket: WebSocket):
 
          
             data_type = data.get("type")
-            print("hey")
+
+            print(data_type)
             if data_type == "frame":
                 frame = FrameMessage(**data)
                 session.frames.append(frame)
@@ -44,11 +46,21 @@ async def image_endpoint(websocket: WebSocket):
                 prompt = "Explain what is in this frame. Give answers when needed"
 
                 await send_token(session, prompt=prompt, frame_data=frame.imageBase64, frame_ts=frame.ts)
+            elif data_type == "scene":
+                frame = FrameMessage(**data)
+                session.frames.append(frame)
+                
+
+                prompt = "Give a dense description of the scene and find key items that the user may need later. In one sentance."
+
+                await send_token(session, prompt, frame.imageBase64, frame.ts, res_type=data_type,)
             elif data_type == "question":
+
                 question = QuestionMessage(**data)
                 session.conversation.append(question.text)
                 
-                await send_token(session, question.text, session.frames[-1].imageBase64 if session.frames else "")
+                await send_token(session, prompt=question.text, frame_data="", res_type=data_type,frame_ts=question.ts)
+               
             else:
                 await websocket.send_json(
                     {

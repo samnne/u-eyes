@@ -30,8 +30,11 @@ export function useExplainWebSocket(url: string) {
       
         setMessages((prev) => {
 
-          if (msg.type ==="meta" && msg.message.includes("complete")) return [prev[prev.length -1], msg]
-
+          // if (msg.type ==="meta" && msg.message.includes("complete")) return [prev[prev.length -1], msg]
+          const item = prev.find(msg => msg.type === "meta" && msg.message.includes("complete"))
+          if (item){
+            return [msg]
+          }
           return [...prev, msg]
         });
       } catch (err) {

@@ -1,17 +1,31 @@
+import { useEffect, useState } from "react";
+
 const Overlay = ({ messages }: { messages: ServerMessage[] }) => {
-  const localMessage = messages[messages.length - 1];
-  console.log(messages)
+  const localMessages = messages.filter(
+    (msg) => msg.type === "thought" || msg.type === "meta"
+  );
+  const [message, setMessage] = useState("Ready");
+  const changeLoadingText = () => {
+    localMessages.map((msg) =>
+      msg.type === "meta" && msg.message.includes("complete")
+        ? setMessage("Done")
+        : setMessage("Thinking")
+    );
+  };
+  useEffect(() => {
+    changeLoadingText();
+  }, [messages]);
+
   return (
-    <div></div>
-    // <button className="absolute bottom-5 bg-black left-5 h-fit">
-    //   <span className=" neo-btn bg-gray-100">
-    //     { localMessage && 
-    //       <span className="text-black">
-    //         {localMessage.type === "meta" && `${localMessage.serverTs}ms`}
-    //       </span>
-    //     }
-    //   </span>
-    // </button>
+    <>
+      <div className="absolute bottom-4 right-4 z-10">
+        <div className=" bg-black/80 backdrop-blur-sm rounded-xl px-6 py-2 shadow-lg border transition-all duration-300">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-500/80">{message}</span>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

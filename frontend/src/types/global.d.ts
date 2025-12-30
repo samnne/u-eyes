@@ -3,11 +3,12 @@
 interface ClientMessageBase {
   type: string;
   ts: number; 
+  thought_signature?: string;
 }
 
 
 interface FrameMessage extends ClientMessageBase {
-  type: "frame";
+  type: "frame" | "scene" | "question";
   imageBase64: string; 
   width: number;
   height: number;
@@ -41,12 +42,23 @@ interface ServerMessageBase {
 interface TokenMessage extends ServerMessageBase {
   type: "token";
   text: string;
+  thought_signature: string;
+}
+interface ThoughtMessage extends ServerMessageBase {
+  type: "thought";
+  text: string;
+
 }
 
 
 interface SectionMessage extends ServerMessageBase {
   type: "section";
   title: string;
+}
+interface ThoughtMessage extends ServerMessageBase {
+  type: "thought";
+  text: string;
+
 }
 
 
@@ -100,4 +112,5 @@ type ServerMessage =
   | OverlayMessage
   | MetaMessage
   | PongMessage
-  | ErrorMessage;
+  | ErrorMessage
+  | ThoughtMessage;

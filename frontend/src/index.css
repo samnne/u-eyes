@@ -1,9 +1,29 @@
 @import "tailwindcss";
+@plugin 'tailwind-scrollbar';
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+}
+
+
+@property --angle{
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+
+
+
+
 
 @layer components {
-  
-
-
+    
   .neo-btn {
     @apply block -translate-x-2 -translate-y-2  border-2 border-black px-4 py-2  transition-all  hover:-translate-y-3 active:translate-x-0 active:translate-y-0;
   }
