@@ -1,0 +1,28 @@
+## Inspiration
+Accessibility tools are often slow they identify an object but lack the sense of a human. I was inspired by Marvel's Iron-Man with his personal companion Jarvis but for the visually impaired. For example, when one asks, "Where is my coffee?", they need to know that it’s **three inches from the edge of the counter and was freshly made.** **uEyes** was born to bridge the gap between "machine sight" and "human understanding" using the new PhD-level reasoning of Gemini 3. 
+
+
+## What it does
+
+**uEyes** is a real-time multimodal assistant that transforms the live environment into a semantic "HUD" for the visually impaired.
+- **Live Environmental Reasoning**: It detects hazards, reads tiny text on pill bottles, and interprets social cues (e.g., "Your friend is waving at you").
+- **Episodic Memory**: Using a real time database "memory" system, users can ask questions about things uEyes saw minutes or hours ago, like "Where did I leave my keys?"
+- **Low-Latency Guidance**: Optimized for speed, it provides <3-5s feedback.
+
+## How we built it
+- **Frontend: React** To efficiently display the camera.
+- **Models Chosen: Gemini-3-Flash-Preview, Gemini-TTS**
+- **Backend: FastAPI** for authentication endpoints, real-time database logic, real-time WebSocket connection to frontend. 
+- **Memory: Realtime Database with Firesbase** maintain a fast, simple, and reliable connection to user memories to consistently stay integrated. Creates "snapshots" of scenes captured by the model to be quickly searched.
+
+## Challenges I ran into
+Finding the right connection to bridge the frontend to backend. Initially I went to sending the snapshots via RESTful API's but I was ambitious to having ultra fast data transfer which is why I eventually settled on WebSocket's to continuously stream frames between services. Another challenge I ran into was rate limiting to avoid intense costs, an extensive and real-time connection constantly making reads, writes, API calls to Gemini comes with a lot of financial drawbacks. I solved this by implementing **Content Caching** for the system instructions so we avoid unnecessary tokens to be sent on each request.
+
+## Accomplishments that we're proud of
+I successfully achieved **<800-1200ms** response time for visual queries to really have the AI feel like a natural experience. We are also incredibly proud of our **"Social Cues"** module, which uses **Gemini 3’s** reasoning to go beyond object detection and actually describe the intent of people in the room (e.g., "The person at the desk looks busy, maybe wait to approach").
+
+## What I learned
+I learned how to leverage **AI** to be a companion and not a simple tool. I learned how to maximize performance, use **WebSocket's** for real-time connections, use **Firebase's Realtime Database**, and create a full backend with **FastAPI's** python library. Most of all, I learned how to make an application that solves a real problem for people who would really benefit from a second set of eyes and that is why I feel so passionate about technology. 
+
+## What's next for uEyes
+I plan to integrate **Gemini 3's Audio-to-Audio** streaming to remove the need for a **TTS** engine, making the voice even more natural and empathetic. I plan to really integrate connections through most common locations a person visits that important items tend to be left and also implement support for smart glasses to keep people connected with their world as much as possible.
