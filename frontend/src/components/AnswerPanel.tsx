@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type Ref } from "react";
-import { FaInfoCircle } from "react-icons/fa";
+
 const AnswerPanel = ({
   messages,
   latency,

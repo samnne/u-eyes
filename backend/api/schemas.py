@@ -7,16 +7,14 @@ class FrameMessage(BaseModel):
     width: int
     height: int
 
+
+
+
 class QuestionMessage(BaseModel):
     type: str
     ts: float
     text: str
 
-class ControlMessage(BaseModel):
-    type: str
-    ts: float
-    mode: str = "auto"
-    enableOverlays: bool = True
-    enableVoice: bool = True
 
-ClientMessage = FrameMessage | QuestionMessage | ControlMessage
+
+ClientMessage = FrameMessage | QuestionMessage 

@@ -6,6 +6,7 @@ system_prompt = """
             For example, if i asked you "Explain what im seeing" and the scene is a kitchen. I want you to respond 
             by telling me the colour, that it is indeed a kitchen, and any other details you picked up. For math equations give 
             straight answers as well as for code. 
+            Make sure your answer is as conscise keep it to around two to three sentances as if you were having a conversation.
             """
 
 test_snapshots = [

@@ -35,14 +35,20 @@ interface PingMessage extends ClientMessageBase {
 interface ServerMessageBase {
   type: string;
   serverTs: number;
+  thought_signature?: string;
 }
 
+
+interface AudioMessage extends ServerMessageBase{
+  type: "audio";
+  stream: string;
+}
 
 // Sent Through Web Socket
 interface TokenMessage extends ServerMessageBase {
   type: "token";
   text: string;
-  thought_signature: string;
+
 }
 interface ThoughtMessage extends ServerMessageBase {
   type: "thought";
@@ -113,4 +119,5 @@ type ServerMessage =
   | MetaMessage
   | PongMessage
   | ErrorMessage
+  | AudioMessage
   | ThoughtMessage;
