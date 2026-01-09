@@ -1,5 +1,5 @@
 ## Inspiration
-Accessibility tools are often slow they identify an object but lack the sense of a human. I was inspired by Marvel's Iron-Man with his personal companion Jarvis but for the visually impaired. For example, when one asks, "Where is my coffee?", they need to know that it’s **three inches from the edge of the counter and was freshly made.** **uEyes** was born to bridge the gap between "machine sight" and "human understanding" using the new PhD-level reasoning of Gemini 3. 
+When a visually impaired person asks "Where's is my coffee?", your regular accessiblity tool can really only say it's "on the counter." **uEyes** answers like a human would, "it's three inches from the counter and it seems to still be hot?" That difference is what makes **uEyes** not just convenient but independent.   
 
 
 ## What it does
@@ -26,3 +26,4 @@ I learned how to leverage **AI** to be a companion and not a simple tool. I lear
 
 ## What's next for uEyes
 I plan to integrate **Gemini 3's Audio-to-Audio** streaming to remove the need for a **TTS** engine, making the voice even more natural and empathetic. I plan to really integrate connections through most common locations a person visits that important items tend to be left and also implement support for smart glasses to keep people connected with their world as much as possible.
+
