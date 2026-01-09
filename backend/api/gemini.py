@@ -166,20 +166,20 @@ async def stream_response(
                         if hasattr(part, "thought_signature")
                         else None
                     )  # type: ignore
-                    model = client.models.generate_content(
-                        model="gemini-2.5-flash-preview-tts",
-                        config=other,
-                        contents=part.text,
-                    )
-                    # await ai_session.send_realtime_input(text=part.text)
-                    yield {
-                        "type": "audio",
-                        "stream": process_pcm(
-                            model.candidates[0].content.parts[0].inline_data.data
-                        ),
-                        "serverTs": int(time.time() * 1000),
-                        "thought_signature": session.thought_signature,
-                    }
+                    # model = client.models.generate_content(
+                    #     model="gemini-2.5-flash-preview-tts",
+                    #     config=other,
+                    #     contents=part.text,
+                    # )
+                    await ai_session.send_realtime_input(text=part.text)
+                    # yield {
+                    #     "type": "audio",
+                    #     "stream": process_pcm(
+                    #         model.candidates[0].content.parts[0].inline_data.data
+                    #     ),
+                    #     "serverTs": int(time.time() * 1000),
+                    #     "thought_signature": session.thought_signature,
+                    # }
                     yield {
                         "type": "token",
                         "text": part.text,
