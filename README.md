@@ -37,12 +37,18 @@ to send via websockets and utlizes Gemini 3 to understand, think, and announce t
 parts in a conversation to be relayed to the end user. The ensures quality responses, and 
 explainations that give guidance and a better underatanding about the surrounding area.
 
-**3. Memorization**. 
+**3. Memorization (Core Feature)**. 
 
-The **__BIG__** feature with **uEyes** this takes it to the next level, with up to 24 hours of scene memorization to ensure privacy.
-Using **Firestore Cloud Database** to store simple taglines of scene and key facts about an area so that when a user asks,
-"Yesterday Where were did I put my work shirt?" **uEyes** takes the past 24 hours of the conversation as context to the user and feeds it back into Gemini 3 to 
-summarize and pinpoint where it could be!
+This is what takes **uEyes to the next level**
+
++ Stores **up to 24 hours of scene memory** to enusre privacy
++ Uses **Firestore to save:
+   + Scene Summaries
+   + Key Objects 
+   + Spacial Hints 
++ Enables Questions like:
+> "Yesterday, where did I put my work shirt?"
+
 
 **4. Low Latency Guidance**
 
