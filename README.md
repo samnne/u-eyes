@@ -107,5 +107,24 @@ I learned how to leverage **AI** to be a companion and not a simple tool. I lear
 
 ## What's next for uEyes
 
-I plan to integrate **Gemini 3's Audio-to-Audio** streaming to remove the need for a **TTS** engine, making the voice even more natural and empathetic. I plan to really integrate connections through most common locations a person visits that important items tend to be left and also implement support for smart glasses to keep people connected with their world as much as possible.
+**1. Audio-to-Audio Integration**
 
+I plan to integrate **Gemini 3's Audio-to-Audio** 
+streaming to remove the need for a **TTS** engine, 
+making the voice even more natural and empathetic. 
+
+**2. Multi-Platform Accessibility**
+
+I plan to really integrate connections through most common locations a person visits that important 
+items tend to be left and also implement support for smart glasses to keep people connected with their world as much as possible.
+
+**3. Hands Free Experience**
+
+I also plan to incorporate browser tooling so the site can be **SEO** compliant, and work 
+effectively with accessibility readers so the site is navigable without the need to press a single button. Distinguishing between
+traditional tools.
+
+
+## Check it Out Here 
+
+(In Development)
