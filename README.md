@@ -49,10 +49,17 @@ This is what takes **uEyes to the next level**
 + Enables Questions like:
 > "Yesterday, where did I put my work shirt?"
 
+uEyes retrieves past scene context 
+and feeds it back into 
+Gemini 3 to infer and explain 
+where the item most likely is
+
 
 **4. Low Latency Guidance**
 
-
++ End-to-end response time: ~800–1200ms
++ Fast enough to feel conversational and natural
++ Designed for real-world movement, not staged demos
 
 
 ## How we built it
