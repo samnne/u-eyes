@@ -1,3 +1,7 @@
+## uEyes 👁️
+
+A __real-time visual assistant powered by Gemini 3__
+
 ## Inspiration
 
 As a marvel fan, specifically someone who loves the technology behind Jarvis, Iron Man's in-suit assistant. I saw the Gemini 3 Hackathon and the models as not just a hot new AI model but, **a means to help everyone get ahead of life.**
@@ -127,6 +131,19 @@ implement support for smart glasses to keep people connected with their world as
 I also plan to incorporate browser tooling so the site can be **SEO** compliant, and work 
 effectively with accessibility readers so the site is navigable without the need to press a single button. Distinguishing between
 traditional tools.
+
+## Demo Scenario
+
+**User:** “Where’s my coffee?”
+**uEyes:** “It’s about three inches from the counter edge, and it looks hot.”
+
+
+**User:** “Did I take my pills earlier?”
+**uEyes:** “Yes — you took them around 20 minutes ago.”
+
+
+**User:** “Is anyone trying to get my attention?”
+**uEyes:** "Your friend is waving and smiling.”
 
 
 ## Check it Out Here 
