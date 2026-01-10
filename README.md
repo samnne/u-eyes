@@ -16,7 +16,7 @@ When a visually impaired person asks "Where's is my coffee?", your regular acces
 ## How we built it
 
 - **Frontend: React** To efficiently display the camera.
-- **Models Chosen: Gemini-3-Flash-Preview, Gemini-TTS**
+- **Models Chosen: Gemini-3-Flash-Preview, Gemini-Native Audio API**
 - **Backend: FastAPI** for authentication endpoints, real-time database logic, real-time WebSocket connection to frontend.
 - **Memory: Realtime Database with Firesbase** maintain a fast, simple, and reliable connection to user memories to consistently stay integrated. Creates "snapshots" of scenes captured by the model to be quickly searched.
 
@@ -28,6 +28,21 @@ Finding the right connection to bridge the frontend to backend. Initially I went
 
 I successfully achieved **<800-1200ms** response time for visual queries to really have the AI feel like a natural experience. We are also incredibly proud of our **"Social Cues"** module, which uses **Gemini 3’s** reasoning to go beyond object detection and actually describe the intent of people in the room (e.g., "The person at the desk looks busy, maybe wait to approach").
 
+## Why uEyes is Different
+
+Most accessibility tools stop at object detection.  
+uEyes aims to deliver **human-like understanding**.
+
+Traditional tools:
+- "Item detected"
+- "Person detected"
+
+**uEyes**:
+- "Your keys are near the edge of the counter"
+- "Your friend is waving, they look happy to see you."
+
+Which was only possible with Gemini 3's reasoning, context caching, and thought signatures to make this as cost effective, efficient, and accessible.
+
 ## What I learned
 
 I learned how to leverage **AI** to be a companion and not a simple tool. I learned how to maximize performance, use **WebSocket's** for real-time connections, use **Firebase's Realtime Database**, and create a full backend with **FastAPI's** python library. Most of all, I learned how to make an application that solves a real problem for people who would really benefit from a second set of eyes and that is why I feel so passionate about technology.
@@ -35,3 +50,4 @@ I learned how to leverage **AI** to be a companion and not a simple tool. I lear
 ## What's next for uEyes
 
 I plan to integrate **Gemini 3's Audio-to-Audio** streaming to remove the need for a **TTS** engine, making the voice even more natural and empathetic. I plan to really integrate connections through most common locations a person visits that important items tend to be left and also implement support for smart glasses to keep people connected with their world as much as possible.
+
