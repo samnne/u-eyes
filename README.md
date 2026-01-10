@@ -4,10 +4,22 @@ A _real-time visual assistant powered by Gemini 3_
 
 ## Inspiration
 
-As a marvel fan, specifically someone who loves the technology behind Jarvis, Iron Man's in-suit assistant. I saw the Gemini 3 Hackathon and the models as not just a hot new AI model but, **a means to help everyone get ahead of life.**
-When a visually impaired person asks "Where's is my coffee?", your regular accessibility tool can really only say it's "on the counter." **uEyes** answers like a human would, **"it's three inches from the counter and it seems to still be hot?"** That difference is what makes **uEyes** not just convenient but independent.
+As a marvel fan, 
+specifically someone who loves the technology behind Jarvis, 
+Iron Man's in-suit assistant. 
+I saw the Gemini 3 Hackathon and the models as not just a hot new AI model but, **a means to help everyone get ahead of life, 
+the same way it did Tony**.
+When a visually impaired person asks "Where's is my coffee?", 
+your regular accessibility tool can really only say it's "on the counter." 
+**uEyes** answers like a human would,
+**"it's three inches from the counter and it seems to still be hot?"** 
+That difference is what makes **uEyes** not just convenient but independent.
 
-**uEyes** is a tool to personalize the connection between a simple accessibility tool and a true helper and to use technology to streamline and uplift lives for all.
+
+
+**uEyes** is a tool to personalize the connection between a 
+simple accessibility tool and a true helper and to 
+use technology to streamline and uplift lives for all.
 
 ## What it does
 
