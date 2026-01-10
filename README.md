@@ -28,6 +28,10 @@ Using **Firestore Cloud Database** to store simple taglines of scene and key fac
 "Yesterday Where were did I put my work shirt?" **uEyes** takes the past 24 hours of the conversation as context to the user and feeds it back into Gemini 3 to 
 summarize and pinpoint where it could be!
 
+**4. Low Latency Guidance**
+
+
+
 
 ## How we built it
 
@@ -36,9 +40,47 @@ summarize and pinpoint where it could be!
 - **Backend: FastAPI** for authentication endpoints, real-time database logic, real-time WebSocket connection to frontend.
 - **Memory: Realtime Database with Firesbase** maintain a fast, simple, and reliable connection to user memories to consistently stay integrated. Creates "snapshots" of scenes captured by the model to be quickly searched.
 
+
+This allows to make a streamlined architecture to make this a one of its kind user experience.
+```markdown
+Camera Feed
+   ↓
+Frontend (React)
+   ↓ (WebSocket stream)
+Backend (FastAPI)
+   ↓
+Gemini 3 Reasoning
+   ↓
+Realtime Memory (Firebase)
+   ↓
+Audio Response (TTS)
+```
+
 ## Challenges I ran into
 
-Finding the right connection to bridge the frontend to backend. Initially I went to sending the snapshots via RESTful API's but I was ambitious to having ultra fast data transfer which is why I eventually settled on WebSocket's to continuously stream frames between services. Another challenge I ran into was rate limiting to avoid intense costs, an extensive and real-time connection constantly making reads, writes, API calls to Gemini comes with a lot of financial drawbacks. I solved this by implementing **Content Caching** for the system instructions so we avoid unnecessary tokens to be sent on each request.
+**1. The Importance of Websockets** 
+
+Finding the right connection to bridge the frontend to backend. 
+Initially I went to sending the snapshots via RESTful API's but I was ambitious to having ultra fast data transfer which is why I eventually settled on WebSocket's to continuously stream frames between services. 
+Another challenge I ran into was rate limiting to avoid intense costs, an extensive and real-time connection constantly making reads, writes, API calls to Gemini comes with a lot of financial drawbacks. 
+I solved this by implementing **Content Caching** for the system instructions so we avoid unnecessary tokens to be sent on each request.
+
+**2. Gemini Native API session**
+
+Keeping track of the **Gemini Live API** session and using both the **Gemini 3 Pro** model to describe the scene 
+was a feat for this project. Making sure **uEyes** has a friendly user experience by utilizing the Live API was a must,
+which became the biggest problem in development: the session ending abruptly, constant 500 error by sessions being lost due to inactivity and not spinning back up, 
+abd correctly sending PCM audio from the backend to the client. Overall we solved this through reading Google's extensive documentation and using Google Gemini to aide in the 
+debugging process to really create a polished and well documented solution.
+
+**3. Memorization** 
+
+Yes, the **BIG** feature from before was the most difficult to implement.
+Getting **uEyes** to be fetch based on session ID's of the active user and making sure 
+the data fetched from the DB was accurate to the individual in oppose to external scenes. 
+Incorrect taglines being returned to the end user, again due to wrong information being fetched. Fixing this did come quickly, 
+as it just took refactoring the database logic to be "iron clad" with efficient user queries.
+
 
 ## Accomplishments that we're proud of
 
