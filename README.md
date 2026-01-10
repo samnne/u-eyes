@@ -113,10 +113,14 @@ I plan to integrate **Gemini 3's Audio-to-Audio**
 streaming to remove the need for a **TTS** engine, 
 making the voice even more natural and empathetic. 
 
+**2. Repeated Locations**
+
+I plan to really integrate connection through most common locations a person visits that important 
+items tend to be left and still keeping users privacy a cause of concern
+
 **2. Multi-Platform Accessibility**
 
-I plan to really integrate connections through most common locations a person visits that important 
-items tend to be left and also implement support for smart glasses to keep people connected with their world as much as possible.
+implement support for smart glasses to keep people connected with their world as much as possible.
 
 **3. Hands Free Experience**
 
