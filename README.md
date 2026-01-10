@@ -6,19 +6,20 @@ When a visually impaired person asks "Where's is my coffee?", your regular acces
 **uEyes** is a tool to personalize the connection between a simple accessibility tool and a true helper and to use technology to streamline and uplift lives for all.
 
 ## What it does
+
 **uEyes** is a personal assistant built to help people see, remember, and make life more streamlined
 for both the visually impaired and anyone looking to never forgot the world around them.
 
-**1. Camera Processing**
+**1. Camera Processing**. 
 Uses real-time camera processing to capture snapshots of the surrounding scene 
 to send via websockets and utlizes Gemini 3 to understand, think, and announce the scene around to the end user 
 
-**2. Proper Context Building**
+**2. Proper Context Building**. 
 **uEyes** uses **context caching** to reduce the need for unnecessary
 parts in a conversation to be relayed to the end user. The ensures quality responses, and 
 explainations that give guidance and a better underatanding about the surrounding area.
 
-**3. Memorization**
+**3. Memorization**. 
 The **__BIG__** feature with **uEyes** this takes it to the next level, with up to 24 hours of scene memorization to ensure privacy.
 Using **Firestore Cloud Database** to store simple taglines of scene and key facts about an area so that when a user asks,
 "Yesterday Where were did I put my work shirt?" **uEyes** takes the past 24 hours of the conversation as context to the user and feeds it back into Gemini 3 to 
