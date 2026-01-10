@@ -148,4 +148,5 @@ traditional tools.
 
 ## Check it Out Here 
 
-(In Development)
+__(In Development)__
+Video Demo, and production application coming soon!
