@@ -1,6 +1,6 @@
 ## uEyes 👁️
 
-A __real-time visual assistant powered by Gemini 3__
+A _real-time visual assistant powered by Gemini 3_
 
 ## Inspiration
 
