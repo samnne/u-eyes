@@ -21,6 +21,8 @@ const Camera = ({
   useEffect(() => {
     startCamera();
   }, [startCamera]);
+  handleMessage
+  connected
   // console.log(captureFrame())
   // useEffect(() => {
 

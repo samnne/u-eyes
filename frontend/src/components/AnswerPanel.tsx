@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type Ref } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const AnswerPanel = ({
   messages,
@@ -13,7 +13,7 @@ const AnswerPanel = ({
   const openModal = () => {
     dialogRef?.current?.showModal();
   };
-
+  console.log(latency)
   const handleLatencyText = () => {
     messages.map((message) =>
       message.type === "meta" && message.message.includes("complete")
@@ -52,15 +52,15 @@ const AnswerPanel = ({
       <dialog
         ref={dialogRef}
         onClick={handleModal}
-        className="absolute opacity-0 no-scrollbar gap-2  text-white bg-black shadow-[#0000004b] open:max-h-40  shadow-lg p-2  max-h-8 justify-self-center  flex flex-col open:opacity-80  top-2 px-5 scale-25   open:scale-100 duration-400 transition-all  rounded-4xl min-w-5/12   open:min-w-24/25 overflow-auto  "
+        className="absolute opacity-0 no-scrollbar gap-2  text-white bg-black shadow-[#0000004b] open:max-h-60  shadow-lg p-2  max-h-8 justify-self-center  flex flex-col open:opacity-80  top-2 px-5 scale-25   open:scale-100 duration-400 transition-all  rounded-4xl min-w-5/12   open:min-w-24/25 overflow-auto  "
       >
         <div className="flex-1">
 
         {messages.map((message: ServerMessage, idx: number) => (
-          <div className=" text-white  flex justify-between" key={idx}>
+          <div className=" text-white  flex flex-col gap-4 justify-between" key={idx}>
             {message.type === "meta" && message.message}
-            <h1 className="capitalize">
-              {message.type === "token" && <span>{message.text} </span>}
+            <h1 className="capitalize ">
+              {message.type === "token" && <span>{message.text}</span>}
             </h1>
           </div>
         ))}

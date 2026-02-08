@@ -1,6 +1,8 @@
 from fastapi import WebSocket
 from collections import deque
 from asyncio import Queue
+from google.genai.live import AsyncSession
+
 
 class SessionState:
     def __init__(self, websocket: WebSocket):
@@ -8,7 +10,7 @@ class SessionState:
         self.frames = deque(maxlen=30)  
         self.conversation = []          
         self.context_summary = ""  
-        self.ai_session = None
+        self.ai_session: AsyncSession | None = None
         self.audio_queue: Queue | None = None
         self.thought_signature: bytes | None = None
 

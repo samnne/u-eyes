@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  backend: 
+    image: "samuelnnechefu/ueyes-backend"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - "8000:8000"
+    develop:
+      watch:
+        - action: sync 
+          path: .
+          target: /app
+          ignore: 
+            - .venv/
+        - action: rebuild
+          path: ./pyproject.toml
+
+

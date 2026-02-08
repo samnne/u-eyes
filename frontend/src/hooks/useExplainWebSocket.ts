@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useRef, useState, type Ref } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 // import { playServerAudio } from "../utils/utils";
 
 export function useExplainWebSocket(url: string) {
   const wsRef = useRef<WebSocket | null>(null);
   const [messages, setMessages] = useState<ServerMessage[]>([]);
   const [connected, setConnected] = useState(false);
-  const audioRef: Ref<AudioContext> = useRef<AudioContext>(null)
+  // const audioRef: Ref<AudioContext> = useRef<AudioContext>(null)
   useEffect(() => {
     const socket = new WebSocket(url);
     wsRef.current = socket;

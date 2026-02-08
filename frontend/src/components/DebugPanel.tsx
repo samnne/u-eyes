@@ -3,7 +3,7 @@ const DebugPanel = ({ messages }: { messages: ServerMessage[] }) => {
   const LOW = 200;
 
   const localMessage = messages[messages.length - 1];
-  console.log(messages);
+
   return (
     <button
       className={`${
