@@ -169,9 +169,10 @@ On the webapp you will first be prompted to login.
 - For Judges:   
       - Username: judges    
       - Password: judge1234.  
-   - For Users:   
+- For Users:   
       - Username and Password    
       - Google OAuth Login via Firebase    
+ 
 After authentication, simply share your camera and microphone. Then uEyes will do the rest of the work,
 Every 20s an image of the scene will be captured and a popup will notify you as the user that one was taken or something went wrong.
 As a user you can press the buttons with either "F", or "Q" which mean frame or question respectively.  
