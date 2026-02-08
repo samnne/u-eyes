@@ -130,12 +130,7 @@ Which was only possible with Gemini 3's reasoning, context caching, and thought 
 
 ## What I learned
 
-I learned how to leverage **AI** to be a companion and not a simple tool. 
-I learned how to maximize performance, using **WebSocket's** for real-time connections, 
-use **Firebase's Realtime Database**, and create a full backend with **FastAPI's** python library. 
-I learned how to peocess PCM data through a real time connection and handle audio data carefully and securely. 
-Most of all, I learned how to make an application that solves a real problem for 
-people who would really benefit from a second set of eyes and that is why I feel so passionate about technology.
+I learned how to leverage **AI** to be a companion and not a simple tool. I learned how to maximize performance, use **WebSocket's** for real-time connections, use **Firebase's Realtime Database**, and create a full backend with **FastAPI's** python library. Most of all, I learned how to make an application that solves a real problem for people who would really benefit from a second set of eyes and that is why I feel so passionate about technology.
 
 ## What's next for uEyes
 
