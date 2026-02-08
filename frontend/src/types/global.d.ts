@@ -48,6 +48,7 @@ interface AudioMessage extends ServerMessageBase{
 interface TokenMessage extends ServerMessageBase {
   type: "token";
   text: string;
+  audio: string;
 
 }
 interface ThoughtMessage extends ServerMessageBase {

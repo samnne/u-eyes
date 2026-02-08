@@ -8,7 +8,7 @@ from google import genai
 from websockets.exceptions import ConnectionClosedOK
 from api.prompts import system_prompt
 from db.db import save_to_db, get_obs_text
-import asyncio
+
 
 load_dotenv()
 
@@ -61,6 +61,7 @@ async def recieve_audio(ai_session, session: SessionState, audio_queue) -> None:
                 continue
             if response.data is None:
                 continue
+            print(response.data)
             await audio_queue.put(
                 {
                     "type": "audio",
@@ -69,6 +70,7 @@ async def recieve_audio(ai_session, session: SessionState, audio_queue) -> None:
                     "thought_signature": session.thought_signature,
                 }
             )
+
         await audio_queue.put(
             {
                 "type": "meta",
@@ -76,12 +78,6 @@ async def recieve_audio(ai_session, session: SessionState, audio_queue) -> None:
                 "serverTs": int(time.time() * 1000),
             }
         )
-
-    except ConnectionClosedOK:
-        # Normal shutdown — do NOT log as error
-        print("Not an error, but ConnectionClosedOK")
-        pass
-
     except Exception as e:
         print("Audio receive crashed:", e)
 
@@ -94,8 +90,9 @@ def generate_client_config() -> tuple[
     # regular config
     config = genai.types.GenerateContentConfig(
         thinking_config=genai.types.ThinkingConfig(
-            include_thoughts=True, thinking_budget=-1
+            include_thoughts=False, thinking_budget=-1
         ),
+        system_instruction=system_prompt,
         # cached_content=get_cache(get_obs_text(session=None)[0]),
         media_resolution=genai.types.MediaResolution(value="MEDIA_RESOLUTION_MEDIUM"),
     )
@@ -107,7 +104,6 @@ def generate_client_config() -> tuple[
     # traditonal tts
     other = genai.types.GenerateContentConfig(
         response_modalities=[genai.types.Modality(value="AUDIO")],
-        # system_instruction="Take the the text given to you and shorten it to make more friendly and conversational",
         speech_config=genai.types.SpeechConfig(
             voice_config=genai.types.VoiceConfig(
                 prebuilt_voice_config=genai.types.PrebuiltVoiceConfig(voice_name="Puck")
@@ -122,14 +118,8 @@ async def stream_response(
     image_base64: str,
     session: SessionState,
     history: list = [],
-    ai_session=None,
 ) -> AsyncGenerator[dict, None]:
     image_bytes = base64.b64decode(parse_image(image_base64))
-    while not session.audio_queue.empty():
-        try:
-            session.audio_queue.get()
-        except asyncio.QueueEmpty:
-            break
 
     config, _, other = generate_client_config()
 
@@ -146,61 +136,50 @@ async def stream_response(
 
     stream = await client.aio.models.generate_content_stream(
         model="gemini-3-flash-preview",
-        contents=history + inputs,
+        contents=inputs,
         config=config,
     )
+    total_text = ""
 
     async for chunk in stream:
         if chunk:
             for part in chunk.candidates[0].content.parts:  # type: ignore
-                if part.thought:
-                    yield {
-                        "type": "thought",
-                        "text": part.text,
-                        "serverTs": int(time.time() * 1000),
-                    }
-
-                elif part.text:
+                if part.text:
                     session.set_thought_signature(
                         part.thought_signature
                         if hasattr(part, "thought_signature")
                         else None
                     )  # type: ignore
-                    # model = client.models.generate_content(
-                    #     model="gemini-2.5-flash-preview-tts",
-                    #     config=other,
-                    #     contents=part.text,
-                    # )
-                    await ai_session.send_realtime_input(text=part.text)
-                    # yield {
-                    #     "type": "audio",
-                    #     "stream": process_pcm(
-                    #         model.candidates[0].content.parts[0].inline_data.data
-                    #     ),
-                    #     "serverTs": int(time.time() * 1000),
-                    #     "thought_signature": session.thought_signature,
-                    # }
+                    response = client.models.generate_content(
+                        model="gemini-2.5-flash-preview-tts",
+                        config=other,
+                        contents=f"Say this: {part.text}",
+                    )
+                    data = None
+                    if response and response.candidates:
+                        candidate = response.candidates[0]
+                        if candidate and candidate.content:
+                            content = candidate.content
+                            if content and content.parts:
+                                p = content.parts[0]
+                                if p:
+                                    inline = p.inline_data
+                                    if inline:
+                                        data = inline.data
+                    
                     yield {
                         "type": "token",
                         "text": part.text,
                         "serverTs": int(time.time() * 1000),
+                        "audio": process_pcm(data),
                         "thought_signature": (
                             part.thought_signature
                             if hasattr(part, "thought_signature")
                             else None
                         ),
                     }
-
-        while not session.audio_queue.empty():
-            msg = await session.audio_queue.get()
-
-            yield msg
-    while True:
-        msg = await session.audio_queue.get()
-
-        if msg["type"] == "meta" and msg["message"] == "audio_end":
-            break
-        yield msg
+                elif part.thought:
+                    print(part.thought)
 
 
 async def send_token(
@@ -209,7 +188,6 @@ async def send_token(
     frame_data: str,
     frame_ts: float = 0,
     res_type: str = "",
-    ai_session=None,
 ):
     """
     Simulate token-by-token streaming to the client.
@@ -225,18 +203,16 @@ async def send_token(
     )
 
     async for message in stream_response(
-        prompt,
-        frame_data,
-        history=get_obs_text(session) if res_type == "question" else [],
+        prompt=prompt,
+        image_base64=frame_data,
         session=session,
-        ai_session=ai_session,
+        history=session.conversation,
     ):
         message["serverTs"] = message["serverTs"] - frame_ts
+        print(message)
         if res_type == "scene" and message["type"] == "token":
             save_to_db(message["text"])
         else:
-            print(message)
-
             await session.websocket.send_json(message)
 
     await session.websocket.send_json(

@@ -3,14 +3,14 @@ import AnswerPanel from "./components/AnswerPanel";
 import Camera from "./components/Camera";
 import DebugPanel from "./components/DebugPanel";
 import Overlay from "./components/Overlay";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useExplainWebSocket } from "./hooks/useExplainWebSocket";
 import { FaCamera } from "react-icons/fa";
 import AudioComponent from "./components/AudioComponent";
 
 function App() {
   const [latency, setLatency] = useState(0);
-  const [thoughtSignatures, setThoughtSignature] = useState([]);
+  // const [thoughtSignatures, setThoughtSignature] = useState([]);
   const { messages, sendMessage, connected } = useExplainWebSocket(
     import.meta.env.VITE_LOCAL_WS_URL
   );
@@ -72,7 +72,7 @@ function App() {
     payload: string | null
   ) {
    
-    handleMessage(type, Date.now(), payload);
+    handleMessage(type, Date.now(), payload ? payload : "");
   }
   return (
     <main

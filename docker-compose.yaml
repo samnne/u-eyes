@@ -1,0 +1,10 @@
+services:
+  frontend:
+    image: "samuelnnechefu/ueyes-frontend:latest"
+    ports: 
+      - "3000:3000"
+  backend:
+    image: "samuelnnechefu/ueyes-backend:latest"
+    ports:
+      - "8000:8000"
+    

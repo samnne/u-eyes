@@ -1,32 +1,19 @@
-import React, { useEffect, useRef, useState, type Ref } from "react";
+import { useEffect, useRef, useState, type Ref } from "react";
 
 const AudioComponent = ({ messages }: { messages: ServerMessage[] }) => {
   const [isStreaming, setIsStreaming] = useState(false);
-  const [localMessages, setLocalMessages] = useState([])
-  const [queue, setQueue] = useState<Array<string>>([]);
-  // useRef ensures these persist across re-renders without resetting
+
   const audioContextRef: Ref<AudioContext> = useRef<AudioContext | null>(null);
   const nextStartTimeRef = useRef(0);
+
   useEffect(() => {
-    const func = () => {
-      setLocalMessages(prev => {
-        const mockQueue: Array<string> = [];
-
-        messages.forEach(msg => {
-          if (msg.type === "audio") mockQueue.unshift(msg.stream);
-
-        })
-        setQueue(mockQueue)
-        return messages
-      })
+    const item = messages.find(msg => msg.type === "meta" && msg.message.includes("complete"))
+    if (item){
+      handleStart()
     }
-    func()
-  }, [messages])
-
-
+  }, [messages]);
   const initAudio = async () => {
     if (!audioContextRef.current) {
-      // 1. Initialize Context (Gemini is 24kHz)
       audioContextRef.current = new window.AudioContext({
         sampleRate: 24000,
       });
@@ -40,9 +27,9 @@ const AudioComponent = ({ messages }: { messages: ServerMessage[] }) => {
 
   const playChunk = (base64Data: string) => {
     const ctx = audioContextRef.current;
+    console.log(audioContextRef);
     if (!ctx || ctx.state === "suspended") return;
-
-
+    // Converting data to buffer
     const binaryString = atob(base64Data);
     const len = binaryString.length;
     const bytes = new Int16Array(len / 2);
@@ -63,14 +50,13 @@ const AudioComponent = ({ messages }: { messages: ServerMessage[] }) => {
     source.buffer = buffer;
     source.connect(ctx.destination);
 
-
     const currentTime = ctx.currentTime;
     const lookAhead = 0.05;
 
     if (nextStartTimeRef.current < currentTime) {
       nextStartTimeRef.current = currentTime + lookAhead;
     }
-
+    // start audio
     source.start(nextStartTimeRef.current);
     nextStartTimeRef.current += buffer.duration;
   };
@@ -78,30 +64,43 @@ const AudioComponent = ({ messages }: { messages: ServerMessage[] }) => {
   const handleStart = async () => {
     await initAudio();
     setIsStreaming(true);
-
     // Start your API connection here
     // When a message arrives:
-    if (queue.length > 0) {
+    console.log(messages);
+    for (let i = 0; i < messages.length; i++) {
+      const chunk: ServerMessage = messages[i];
 
-      for (let i = 0; i < messages.length; i++) {
-        const chunk: string = queue.shift();
-        playChunk(chunk)
+      if (chunk["type"] === "token" && chunk["audio"]) {
+        playChunk(chunk["audio"]);
       }
+
+      // if (chunk["type"] === "token") {
+      //   speakText(!chunk["text"].includes("**") ? chunk["text"] : "")
+      // }
     }
-
-
+    setIsStreaming((prev) => !prev);
   };
+  // const playAudio = async () => {
+  //   await initAudio();
+  //   const tokens = [];
+  //   for (let i = 1; i < 4; i++) {
+  //     const itemString = localStorage.getItem(`${i}`);
+  //     if (itemString) {
+  //       const item = JSON.parse(itemString);
+  //       tokens.push(item);
+  //     }
+  //   }
 
+  //   for (let i = 0; i < tokens.length; i++) {
+  //     playChunk(tokens[i]["audio"]);
+  //   }
+  // };
 
-  // 
+  //
 
   return (
     <div className="absolute z-50 bottom-20">
-      <button
-        onClick={handleStart}
-        className="bg-red-500 text-black"
-
-      >
+      <button onClick={handleStart} className="bg-red-500 text-black">
         {isStreaming ? "Streaming Audio..." : "Start Audio Session"}
       </button>
     </div>

@@ -1,8 +1,7 @@
 system_prompt = """
             You are a real-time multimodal reasoning engine.
             Interpret the visual scene holistically.
-            Provide explanations in short streaming tokens.
-            Include overlay instructions when relevant. All while being consice,
+            Provide explanations in short streaming tokens. All while being consice,
             For example, if i asked you "Explain what im seeing" and the scene is a kitchen. I want you to respond 
             by telling me the colour, that it is indeed a kitchen, and any other details you picked up. For math equations give 
             straight answers as well as for code. 
@@ -11,49 +10,79 @@ system_prompt = """
 
 test_snapshots = [
     # --- KITCHEN (Focus on OCR and Hazard Detection) ---
-    {"text": "Silver car keys resting on the granite island next to a bowl of green apples."},
+    {
+        "text": "Silver car keys resting on the granite island next to a bowl of green apples."
+    },
     {"text": "A half-empty bottle of red wine uncorked near the sink."},
     {"text": "The toaster is plugged in and the lever is down, but nothing is inside."},
-    {"text": "A white prescription bottle for Amoxicillin on the dining table, lid is slightly loose."},
-    {"text": "A blue ceramic coffee mug sitting precariously close to the edge of the counter."},
-    {"text": "A grocery list written on a yellow sticky note attached to the refrigerator."},
+    {
+        "text": "A white prescription bottle for Amoxicillin on the dining table, lid is slightly loose."
+    },
+    {
+        "text": "A blue ceramic coffee mug sitting precariously close to the edge of the counter."
+    },
+    {
+        "text": "A grocery list written on a yellow sticky note attached to the refrigerator."
+    },
     {"text": "A box of cereal left open on top of the fridge."},
-    {"text": "An electric kettle steaming on the base; the switch is still in the 'on' position."},
-    {"text": "A pair of kitchen shears left open on the cutting board next to some celery."},
+    {
+        "text": "An electric kettle steaming on the base; the switch is still in the 'on' position."
+    },
+    {
+        "text": "A pair of kitchen shears left open on the cutting board next to some celery."
+    },
     {"text": "Dish soap bottle is tipped over on its side near the faucet."},
     {"text": "A small puddle of clear liquid on the floor near the refrigerator door."},
     {"text": "The oven clock is blinking 12:00, indicating a recent power flicker."},
-    {"text": "A stack of mail, mostly envelopes, sitting on the end of the kitchen table."},
+    {
+        "text": "A stack of mail, mostly envelopes, sitting on the end of the kitchen table."
+    },
     {"text": "A cast iron skillet is on the back burner; it looks oily and used."},
     {"text": "A reusable grocery bag hanging from the back of a dining chair."},
     {"text": "Metal spatula resting inside a plastic bowl on the counter."},
-    {"text": "A small fire extinguisher is visible under the sink, partially blocked by a bucket."},
+    {
+        "text": "A small fire extinguisher is visible under the sink, partially blocked by a bucket."
+    },
     {"text": "A glass of water with a lemon slice sitting on a coaster."},
     {"text": "A brown paper lunch bag with the name 'Sam' written in black marker."},
     {"text": "Two magnets on the fridge holding up a child's drawing of a sun."},
-
     # --- LIVING ROOM (Focus on Spatial Layout and Social Cues) ---
-    {"text": "The TV remote is tucked halfway under the grey sofa cushion on the right."},
-    {"text": "A pair of black reading glasses sitting on top of a hardcover book on the coffee table."},
-    {"text": "A person is sitting in the armchair, looking at a laptop and wearing headphones."},
+    {
+        "text": "The TV remote is tucked halfway under the grey sofa cushion on the right."
+    },
+    {
+        "text": "A pair of black reading glasses sitting on top of a hardcover book on the coffee table."
+    },
+    {
+        "text": "A person is sitting in the armchair, looking at a laptop and wearing headphones."
+    },
     {"text": "A yoga mat is unrolled in the center of the floor, slightly bunched up."},
     {"text": "A floor lamp is positioned behind the sofa, but the bulb is missing."},
     {"text": "A Nintendo Switch console is docked near the TV, the green light is on."},
     {"text": "A small potted succulent on the windowsill; the soil looks very dry."},
-    {"text": "A plate with pizza crusts sitting on the floor next to the beanbag chair."},
-    {"text": "A person in a blue shirt is standing by the window, waving at someone outside."},
+    {
+        "text": "A plate with pizza crusts sitting on the floor next to the beanbag chair."
+    },
+    {
+        "text": "A person in a blue shirt is standing by the window, waving at someone outside."
+    },
     {"text": "A pile of folded laundry (mostly towels) sitting on the ottoman."},
     {"text": "A black cat is curled up and sleeping on the rug near the fireplace."},
     {"text": "A set of coasters stacked neatly, but one is missing from the set."},
-    {"text": "A pair of slippers left in the middle of the walking path from the hall."},
+    {
+        "text": "A pair of slippers left in the middle of the walking path from the hall."
+    },
     {"text": "A wall clock showing 3:15; it is mounted above the bookshelf."},
-    {"text": "A framed photo of a mountain range tilted slightly to the left on the wall."},
+    {
+        "text": "A framed photo of a mountain range tilted slightly to the left on the wall."
+    },
     {"text": "An acoustic guitar leaning against the wall next to the bookshelf."},
     {"text": "A box of tissues on the side table, almost empty."},
     {"text": "A ceiling fan is spinning at a high speed above the seating area."},
-    {"text": "A laptop charger cord is stretched across the floor, creating a trip hazard."},
+    {
+        "text": "A laptop charger cord is stretched across the floor, creating a trip hazard."
+    },
     {"text": "A decorative candle on the coffee table; the wick has been burnt."},
-
     # --- BEDROOM (Focus on Personal Items and Organization) ---
     {"text": "A smartphone plugged into a charger on the left nightstand."},
     {"text": "A pair of jeans draped over the back of the desk chair."},
@@ -75,7 +104,6 @@ test_snapshots = [
     {"text": "A soft blanket thrown over the foot of the bed."},
     {"text": "A small trash can under the desk, containing crumpled paper."},
     {"text": "A backpack sitting upright on the floor next to the desk."},
-
     # --- BATHROOM (Focus on Health, Safety, and High Resolution) ---
     {"text": "A toothbrush and toothpaste tube resting on the edge of the sink."},
     {"text": "A wet towel hanging over the shower curtain rod."},
@@ -97,7 +125,6 @@ test_snapshots = [
     {"text": "A bath mat with a non-slip backing is centered on the floor."},
     {"text": "A spray bottle of glass cleaner on the floor near the toilet."},
     {"text": "A nightlight plugged into the wall outlet, currently off."},
-
     # --- HALLWAY & MISC (Focus on Navigation and Hazards) ---
     {"text": "A folded umbrella leaning against the wall near the front door."},
     {"text": "A pair of muddy boots sitting on a rubber mat in the entryway."},
@@ -118,5 +145,6 @@ test_snapshots = [
     {"text": "A heavy doorstop in the shape of a wedge under the hall door."},
     {"text": "A Wi-Fi router on a shelf with three glowing blue lights."},
     {"text": "A small fire extinguisher mounted on the wall near the garage door."},
-    {"text": "A bicycle leaning against the wall in the entryway, blocking the path."}
+    {"text": "A bicycle leaning against the wall in the entryway, blocking the path."},
 ]
+
