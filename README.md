@@ -132,7 +132,12 @@ Which was only possible with Gemini 3's reasoning, context caching, and thought 
 
 ## What I learned
 
-I learned how to leverage **AI** to be a companion and not a simple tool. I learned how to maximize performance, use **WebSocket's** for real-time connections, use **Firebase's Realtime Database**, and create a full backend with **FastAPI's** python library. Most of all, I learned how to make an application that solves a real problem for people who would really benefit from a second set of eyes and that is why I feel so passionate about technology.
+I learned how to leverage **AI** to be a companion and not a simple tool. 
+I learned how to maximize performance, using **WebSocket's** for real-time connections, 
+use **Firebase's Realtime Database**, and create a full backend with **FastAPI's** python library. 
+I learned how to peocess PCM data through a real time connection and handle audio data carefully and securely. 
+Most of all, I learned how to make an application that solves a real problem for 
+people who would really benefit from a second set of eyes and that is why I feel so passionate about technology.
 
 ## What's next for uEyes
 
@@ -157,6 +162,22 @@ I also plan to incorporate browser tooling so the site can be **SEO** compliant,
 effectively with accessibility readers so the site is navigable without the need to press a single button. Distinguishing between
 traditional tools.
 
+
+## How to Use uEyes
+
+On the webapp you will first be prompted to login.
+- For Judges: 
+      - Username: judges 
+      - Password: judge1234
+- For Users: 
+      - Username and Password 
+      - Google OAuth Login via Firebase 
+After authentication, simply share your camera and microphone. Then uEyes will do the rest of the work,
+Every 20s an image of the scene will be captured and a popup will notify you as the user that one was taken or something went wrong.
+As a user you can press the buttons with either "F", or "Q" which mean frame or question respectively.  
+Once pressed uEyes will process the scene and use Gemini 3 Flash to describe the scene, then it is passed through to Gemini 2.5 Flash to warmly speak the scene.
+The following section describes Demo Scenarios.
+
 ## Demo Scenario
 
 **User:** “Where’s my coffee?”
@@ -169,6 +190,8 @@ traditional tools.
 
 **User:** “Is anyone trying to get my attention?”
 **uEyes:** "Your friend is waving and smiling.”
+
+
 
 
 ## Check it Out Here 
