@@ -65,7 +65,7 @@ where the item most likely is
 ## How we built it
 
 - **Frontend: React** To efficiently display the camera.
-- **Models Chosen: Gemini-3-Flash-Preview, Gemini-Native Audio API**
+- **Models Chosen: Gemini-3-Flash-Preview, Gemini TTS**
 - **Backend: FastAPI** for authentication endpoints, real-time database logic, real-time WebSocket connection to frontend.
 - **Memory: Realtime Database with Firesbase** maintain a fast, simple, and reliable connection to user memories to consistently stay integrated. Creates "snapshots" of scenes captured by the model to be quickly searched.
 
