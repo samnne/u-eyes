@@ -80,6 +80,10 @@ async def request_processing(websocket: WebSocket, session: SessionState):
         )
 
 
+@app.get("/")
+def index():
+    return {"message": "Welcome to the uEyes API!"}
+
 @app.websocket("/ws/explain")
 async def image_endpoint(websocket: WebSocket):
     session = SessionState(websocket=websocket)

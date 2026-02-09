@@ -4,8 +4,7 @@ venv/
 .venv/
 __pycache__/
 
-service_account/
-
+ueyes_service_account*.json
 # Ignore Git history (Docker doesn't need your .git folder to run the app)
 .git
 .gitignore
@@ -13,6 +12,8 @@ service_account/
 # Ignore local environment files
 .env
 .env.local
+
+
 
 # Ignore documentation and logs
 *.md

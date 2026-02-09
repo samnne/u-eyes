@@ -35,8 +35,9 @@ wheels/
 .venv
 
 .env
-service_account/
+
 
 
 
 .npm
+ueyes_service_account*.json

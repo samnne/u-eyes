@@ -5,8 +5,24 @@ export function useExplainWebSocket(url: string) {
   const wsRef = useRef<WebSocket | null>(null);
   const [messages, setMessages] = useState<ServerMessage[]>([]);
   const [connected, setConnected] = useState(false);
+  const [awake, setAwake] = useState(false);
   // const audioRef: Ref<AudioContext> = useRef<AudioContext>(null)
+  const open = async () => {
+    fetch(import.meta.env.VITE_PROD_URL).then((res) => res.json()).then(data=> {
+      console.log(data)
+      setAwake(true)
+    }).catch(err=>{
+      console.error("Failed to wake up server:", err);
+      
+    });
+
+  };
+
   useEffect(() => {
+    if(!awake) {
+      open()
+      return;
+    }
     const socket = new WebSocket(url);
     wsRef.current = socket;
     socket.onopen = () => {
@@ -31,14 +47,13 @@ export function useExplainWebSocket(url: string) {
         setMessages((prev) => {
           // if (msg.type ==="meta" && msg.message.includes("complete")) return [prev[prev.length -1], msg]
           const item = prev.find(
-            (msg) => msg.type === "meta" && msg.message.includes("complete")
+            (msg) => msg.type === "meta" && msg.message.includes("complete"),
           );
           if (item) {
             return [msg];
           }
           return [...prev, msg];
         });
-
 
         // if (msg.type === "audio" && msg.stream) {
         //   if (!audioRef.current) audioRef.current = new AudioContext();
@@ -67,12 +82,11 @@ export function useExplainWebSocket(url: string) {
         socket.close();
       }
     };
-  }, [url]);
+  }, [url, awake]);
 
   const sendMessage = useCallback((msg: ClientMessage) => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(msg));
-
     } else {
       console.warn("WebSocket not connected");
     }

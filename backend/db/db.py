@@ -12,7 +12,7 @@ load_dotenv()
 
 backend_auth = os.getenv("BACKEND_AUTH")
 
-cred = credentials.Certificate("./service_account/ueyes_service_account_key.json")
+cred = credentials.Certificate("./db/ueyes_service_account_key.json")
 
 app = firebase_admin.initialize_app(cred)
 

@@ -100,9 +100,9 @@ const AudioComponent = ({ messages }: { messages: ServerMessage[] }) => {
 
   return (
     <div className="absolute z-50 bottom-20">
-      <button onClick={handleStart} className="bg-red-500 text-black">
+      {/* <button onClick={handleStart} className="bg-red-500 text-black">
         {isStreaming ? "Streaming Audio..." : "Start Audio Session"}
-      </button>
+      </button> */}
     </div>
   );
 };
