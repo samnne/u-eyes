@@ -1,0 +1,20 @@
+# Ignore dependencies (Docker will run npm install / pip install itself)
+node_modules/
+venv/
+.venv/
+__pycache__/
+
+# Ignore Git history (Docker doesn't need your .git folder to run the app)
+.git
+.gitignore
+
+# Ignore local environment files
+.env
+.env.local
+
+# Ignore documentation and logs
+*.md
+npm-debug.log*
+yarn-error.log*
+docker-compose.yaml
+docker-compose.override.yaml
