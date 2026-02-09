@@ -2,13 +2,13 @@ import { useEffect, useRef, useState, type Ref } from "react";
 
 const AudioComponent = ({ messages }: { messages: ServerMessage[] }) => {
   const [isStreaming, setIsStreaming] = useState(false);
-
+  isStreaming;
   const audioContextRef: Ref<AudioContext> = useRef<AudioContext | null>(null);
   const nextStartTimeRef = useRef(0);
 
   useEffect(() => {
     const item = messages.find(msg => msg.type === "meta" && msg.message.includes("complete"))
-    if (item){
+    if (item) {
       handleStart()
     }
   }, [messages]);

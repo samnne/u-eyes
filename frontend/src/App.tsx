@@ -1,7 +1,6 @@
 import "./index.css";
 import AnswerPanel from "./components/AnswerPanel";
 import Camera from "./components/Camera";
-import DebugPanel from "./components/DebugPanel";
 import Overlay from "./components/Overlay";
 import { useState } from "react";
 import { useExplainWebSocket } from "./hooks/useExplainWebSocket";
@@ -74,7 +73,7 @@ function App() {
     type: "frame" | "scene" | "question",
     payload: string | null,
   ) {
-    if (type === "question"){
+    if (type === "question") {
       setQuestionModal(false)
     }
 
@@ -93,7 +92,7 @@ function App() {
       >
         Q
       </button>
-      
+
       <div
         className={` ${questionModal ? "scale-100 border-purple-500 border  right-10 top-10 z-50" : "scale-0 right-5 top-5 -z-10"}  transition-all duration-200 ease-in-out  max-sm:right-2  flex justify-center items-center   absolute max-sm:p-2 p-4 rounded-2xl w-80 sm:w-90 h-fit bg-black`}
       >
@@ -115,7 +114,7 @@ function App() {
           </button>
         </div>
       </div>
-      
+
       <AnswerPanel messages={messages} latency={latency} />
       {connected ? (
         <Camera
