@@ -4,6 +4,7 @@ interface ClientMessageBase {
   type: string;
   ts: number; 
   thought_signature?: string;
+  uid: string | undefined;
 }
 
 

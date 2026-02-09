@@ -10,6 +10,7 @@ class SessionState:
         self.frames = deque(maxlen=30)  
         self.conversation = []          
         self.context_summary = ""  
+        self.uid = None
         self.ai_session: AsyncSession | None = None
         self.audio_queue: Queue | None = None
         self.thought_signature: bytes | None = None

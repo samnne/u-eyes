@@ -5,7 +5,7 @@ system_prompt = """
             For example, if i asked you "Explain what im seeing" and the scene is a kitchen. I want you to respond 
             by telling me the colour, that it is indeed a kitchen, and any other details you picked up. For math equations give 
             straight answers as well as for code. 
-            Make sure your answer is as conscise keep it to around two to three sentances as if you were having a conversation.
+            Make sure your answer is as conscise keep it to maximum four sentances as if you were having a conversation.
             """
 
 test_snapshots = [
@@ -147,4 +147,3 @@ test_snapshots = [
     {"text": "A small fire extinguisher mounted on the wall near the garage door."},
     {"text": "A bicycle leaning against the wall in the entryway, blocking the path."},
 ]
-

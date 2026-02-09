@@ -14,7 +14,11 @@ app = FastAPI(title="uEyes")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # http://localhost:5173
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://samnne.github.io/u-eyes/",
+    ],  # http://localhost:5173
     # allow_credentials=False,
     # allow_methods=["*"],
     # allow_headers=["*"],
@@ -26,9 +30,13 @@ active_sessions: List[SessionState] = []
 
 async def request_processing(websocket: WebSocket, session: SessionState):
     data = await websocket.receive_json()
-
+  
     data_type = data.get("type")
 
+    if data.get("uid"):
+        session.uid = data.get("uid")
+    print(session.uid)
+    
     if data_type == "frame":
         frame = FrameMessage(**data)
         session.frames.append(frame)
@@ -40,7 +48,6 @@ async def request_processing(websocket: WebSocket, session: SessionState):
             prompt=prompt,
             frame_data=frame.imageBase64,
             frame_ts=frame.ts,
-        
         )
     elif data_type == "scene":
         frame = FrameMessage(**data)
@@ -54,7 +61,6 @@ async def request_processing(websocket: WebSocket, session: SessionState):
             frame.imageBase64,
             frame.ts,
             res_type=data_type,
-          
         )
     elif data_type == "question":
         question = QuestionMessage(**data)
@@ -66,7 +72,6 @@ async def request_processing(websocket: WebSocket, session: SessionState):
             frame_data="",
             res_type=data_type,
             frame_ts=question.ts,
-        
         )
 
     else:
@@ -83,6 +88,7 @@ async def request_processing(websocket: WebSocket, session: SessionState):
 @app.get("/")
 def index():
     return {"message": "Welcome to the uEyes API!"}
+
 
 @app.websocket("/ws/explain")
 async def image_endpoint(websocket: WebSocket):
@@ -104,9 +110,11 @@ async def image_endpoint(websocket: WebSocket):
         while True:
             await request_processing(websocket=websocket, session=session)
     except Exception as e:
-            print(f"WebSocket error: {e}")
+        print(f"WebSocket error: {e}")
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
+

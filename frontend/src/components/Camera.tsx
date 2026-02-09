@@ -23,24 +23,13 @@ const Camera = ({
   }, [startCamera]);
   handleMessage
   connected
-  // console.log(captureFrame())
+
   // useEffect(() => {
 
   //   const interval = setInterval(() => {
   //     const frameBase64 = captureFrame();
   //     if (frameBase64) {
-  //       handleMessage("frame", Date.now(), frameBase64, 800, 800);
-  //     }
-  //   }, 20000); // 1 frame per second
-
-  //   return () => clearInterval(interval);
-  // }, [captureFrame]);
-  // useEffect(() => {
-
-  //   const interval = setInterval(() => {
-  //     const frameBase64 = captureFrame();
-  //     if (frameBase64) {
-  //       handleMessage("scene", Date.now(), frameBase64, 800, 800);
+  //       test_handle("scene", frameBase64)
   //     }
   //   }, 60000); // 1 frame per second
 
@@ -55,13 +44,13 @@ const Camera = ({
       >
         F
       </button>
-      <button
+      {/* <button
         onClick={() => test_handle("scene", captureFrame())}
         type="button"
         className="absolute top-35 right-5 z-20 rounded-2xl hover:scale-115 transition-all duration-200 hover:rounded-3xl active:scale-115 focus:scale-115 bg-purple-500 text-white w-8 h-8"
       >
         S
-      </button>
+      </button> */}
       <video
         ref={videoRef}
         // width={}

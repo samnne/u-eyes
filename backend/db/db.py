@@ -20,7 +20,8 @@ db = firestore.client()
 
 
 def get_obs_text(session: SessionState):
-    docs = db.collection("memory").order_by("ts").limit(100).get()
+    # docs = db.collection("memory").where(filter=firestore.firestore.FieldFilter("uid", "==", session.uid)).order_by("ts").limit(100).get()
+    docs = []
     text =""
     for doc in docs:
         doc_dict = doc.to_dict()
@@ -48,4 +49,4 @@ def seed():
 def save_to_db(data: dict):
     doc_ref = db.collection("memory")
 
-    query = doc_ref.add({"text": data, "ts": firestore.firestore.SERVER_TIMESTAMP})
+    query = doc_ref.add({"text": data, "ts": firestore.firestore.SERVER_TIMESTAMP, "uid": data.get("uid", "unknown")})

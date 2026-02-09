@@ -8,21 +8,36 @@ export function useExplainWebSocket(url: string) {
   const [awake, setAwake] = useState(false);
   // const audioRef: Ref<AudioContext> = useRef<AudioContext>(null)
   const open = async () => {
-    fetch(import.meta.env.VITE_PROD_URL).then((res) => res.json()).then(data=> {
-      console.log(data)
-      setAwake(true)
-    }).catch(err=>{
-      console.error("Failed to wake up server:", err);
-      
-    });
-
+    fetch(
+      import.meta.env.VITE_PROD_URL,
+      // "http://localhost:8000/",
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setAwake(true);
+      })
+      .catch((err) => {
+        console.error("Failed to wake up server:", err);
+      });
   };
 
   useEffect(() => {
-    if(!awake) {
-      open()
+    if (!awake) {
+      open();
       return;
     }
+    connect()
+    return () => {
+      if (
+        wsRef.current?.readyState === WebSocket.OPEN ||
+        wsRef.current?.readyState === WebSocket.CONNECTING
+      ) {
+        wsRef.current?.close();
+      }
+    };
+  }, [url, awake]);
+  const connect = useCallback(() => {
     const socket = new WebSocket(url);
     wsRef.current = socket;
     socket.onopen = () => {
@@ -39,7 +54,7 @@ export function useExplainWebSocket(url: string) {
         }
 
         if (!data.startsWith("{") && !data.startsWith("[")) {
-          //console.log("Received plain text message:", data);
+          console.log("Received plain text message:", data);
           return;
         }
         const msg: ServerMessage = JSON.parse(data);
@@ -74,17 +89,14 @@ export function useExplainWebSocket(url: string) {
       console.error("WebSocket error:", err);
     };
 
-    return () => {
-      if (
-        socket.readyState === WebSocket.OPEN ||
-        socket.readyState === WebSocket.CONNECTING
-      ) {
-        socket.close();
-      }
-    };
-  }, [url, awake]);
+    
+  }, []);
 
   const sendMessage = useCallback((msg: ClientMessage) => {
+    // if (!awake) {
+    //   open();
+    //   return;
+    // }
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(msg));
     } else {
@@ -92,5 +104,5 @@ export function useExplainWebSocket(url: string) {
     }
   }, []);
 
-  return { messages, sendMessage, connected, setMessages };
+  return { messages, sendMessage, connected, setMessages, connect };
 }

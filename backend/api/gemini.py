@@ -1,3 +1,4 @@
+import asyncio
 from api.session import SessionState
 import time
 from dotenv import load_dotenv
@@ -128,9 +129,7 @@ async def stream_response(
     ]
 
     if get_obs_text(session):
-        inputs.append(
-            genai.types.Part.from_text(text=get_obs_text(session)[0])
-        )
+        inputs.append(genai.types.Part.from_text(text=get_obs_text(session)[0]))
     if image_base64:
         inputs.append(
             genai.types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg")
@@ -144,7 +143,7 @@ async def stream_response(
         config=config,
     )
     total_text = ""
-
+    print("hey")
     async for chunk in stream:
         if chunk:
             for part in chunk.candidates[0].content.parts:  # type: ignore
@@ -154,11 +153,14 @@ async def stream_response(
                         if hasattr(part, "thought_signature")
                         else None
                     )  # type: ignore
-                    response = client.models.generate_content(
-                        model="gemini-2.5-flash-preview-tts",
+                    response = await client.aio.models.generate_content(
+                        model="gemini-2.5-flash-preview-tts",  
                         config=other,
-                        contents=f"Say this: {part.text}",
+                        contents=f"Say this at a faster speaking rate: {part.text}",
                     )
+                  
+
+                    await asyncio.sleep(0)
                     data = None
                     if response and response.candidates:
                         candidate = response.candidates[0]
@@ -170,7 +172,7 @@ async def stream_response(
                                     inline = p.inline_data
                                     if inline:
                                         data = inline.data
-                    
+
                     yield {
                         "type": "token",
                         "text": part.text,
