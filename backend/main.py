@@ -94,7 +94,7 @@ def index():
 async def image_endpoint(websocket: WebSocket):
     session = SessionState(websocket=websocket)
     active_sessions.append(session)
-    session.audio_queue = asyncio.Queue()
+   
     await websocket.accept()
     config, audio_config, _ = generate_client_config()
     # while True:
@@ -113,8 +113,8 @@ async def image_endpoint(websocket: WebSocket):
         print(f"WebSocket error: {e}")
 
 
-if __name__ == "__main__":
-    import uvicorn
+# if __name__ == "__main__":
+#     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
 

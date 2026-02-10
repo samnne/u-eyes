@@ -21,6 +21,8 @@ client = genai.Client(
 
 
 def process_pcm(data) -> str:
+    if data is None:
+        return ""
     return base64.b64encode(data).decode("utf-8")
 
 
@@ -91,7 +93,7 @@ def generate_client_config() -> tuple[
     # regular config
     config = genai.types.GenerateContentConfig(
         thinking_config=genai.types.ThinkingConfig(
-            include_thoughts=False, thinking_budget=-1
+            include_thoughts=True, thinking_level=genai.types.ThinkingLevel.LOW
         ),
         system_instruction=system_prompt,
         # cached_content=get_cache(get_obs_text(session=None)[0]),
@@ -124,26 +126,28 @@ async def stream_response(
 
     config, _, other = generate_client_config()
 
-    inputs = [
+    session.conversation.append(
         genai.types.Part.from_text(text=prompt),
-    ]
+    )
     # db_data = await get_obs_text(session)
     # if db_data:
-    #     inputs.append(genai.types.Part.from_text(text=db_data[0]))
+    #     session.conversation.append(genai.types.Part.from_text(text=db_data[0]))
     if image_base64:
-        inputs.append(
+        session.conversation.append(
             genai.types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg")
         )
     if session.thought_signature:
-        inputs.append(genai.types.Part(thought_signature=session.thought_signature))
+        session.conversation.append(
+            genai.types.Part(thought_signature=session.thought_signature)
+        )
 
     stream = await client.aio.models.generate_content_stream(
         model="gemini-3-flash-preview",
-        contents=inputs,
+        contents=session.conversation,
         config=config,
     )
     total_text = ""
- 
+
     async for chunk in stream:
         if chunk:
             for part in chunk.candidates[0].content.parts:  # type: ignore
@@ -153,12 +157,11 @@ async def stream_response(
                         if hasattr(part, "thought_signature")
                         else None
                     )  # type: ignore
-                    response = await client.aio.models.generate_content(
-                        model="gemini-2.5-flash-preview-tts",  
+                    response = client.models.generate_content(
+                        model="gemini-2.5-flash-preview-tts",
                         config=other,
                         contents=f"Say this at a faster speaking rate: {part.text}",
                     )
-                  
 
                     await asyncio.sleep(0)
                     data = None
@@ -172,19 +175,20 @@ async def stream_response(
                                     inline = p.inline_data
                                     if inline:
                                         data = inline.data
-
+                    print("hey")
+                    session.conversation.append(
+                        (genai.types.Part.from_text(text=part.text))
+                    )
+                    session.conversation.append(chunk.candidates[0].content)
                     yield {
                         "type": "token",
                         "text": part.text,
                         "serverTs": int(time.time() * 1000),
                         "audio": process_pcm(data),
-                        "thought_signature": (
-                            part.thought_signature
-                            if hasattr(part, "thought_signature")
-                            else None
-                        ),
+                        "thought_signature": (session.thought_signature),
                     }
                 elif part.thought:
+                    session.set_thought_signature(part.thought_signature)
                     print(part.thought)
 
 
@@ -217,7 +221,7 @@ async def send_token(
         message["serverTs"] = message["serverTs"] - frame_ts
         print(message)
         if res_type == "scene" and message["type"] == "token":
-            save_to_db(message["text"], session)
+            await save_to_db(message["text"], session)
         else:
             await session.websocket.send_json(message)
 
