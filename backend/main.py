@@ -32,10 +32,10 @@ async def request_processing(websocket: WebSocket, session: SessionState):
     data = await websocket.receive_json()
   
     data_type = data.get("type")
-
+    print(data_type)
     if data.get("uid"):
         session.uid = data.get("uid")
-    print(session.uid)
+    
     
     if data_type == "frame":
         frame = FrameMessage(**data)

@@ -127,9 +127,9 @@ async def stream_response(
     inputs = [
         genai.types.Part.from_text(text=prompt),
     ]
-
-    if get_obs_text(session):
-        inputs.append(genai.types.Part.from_text(text=get_obs_text(session)[0]))
+    db_data = await get_obs_text(session)
+    if db_data:
+        inputs.append(genai.types.Part.from_text(text=db_data[0]))
     if image_base64:
         inputs.append(
             genai.types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg")
@@ -143,7 +143,7 @@ async def stream_response(
         config=config,
     )
     total_text = ""
-    print("hey")
+ 
     async for chunk in stream:
         if chunk:
             for part in chunk.candidates[0].content.parts:  # type: ignore
@@ -217,7 +217,7 @@ async def send_token(
         message["serverTs"] = message["serverTs"] - frame_ts
         print(message)
         if res_type == "scene" and message["type"] == "token":
-            save_to_db(message["text"])
+            save_to_db(message["text"], session)
         else:
             await session.websocket.send_json(message)
 
