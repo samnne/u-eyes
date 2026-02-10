@@ -36,8 +36,8 @@ jobs:
       - name: Build React app
         working-directory: ./frontend
         env:
-          VITE_PROD_URL: ${{ secrets.VITE_PROD_URL}}
-          VITE_PROD_WS_URL: ${{ secrets.VITE_PROD_WS_URL}}
+          VITE_PROD_URL: ${{ vars.VITE_PROD_URL }}
+          VITE_PROD_WS_URL: ${{ vars.VITE_PROD_WS_URL }}
         run: npm run build
       
       - name: Setup Pages
