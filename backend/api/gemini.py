@@ -127,9 +127,9 @@ async def stream_response(
     inputs = [
         genai.types.Part.from_text(text=prompt),
     ]
-    db_data = await get_obs_text(session)
-    if db_data:
-        inputs.append(genai.types.Part.from_text(text=db_data[0]))
+    # db_data = await get_obs_text(session)
+    # if db_data:
+    #     inputs.append(genai.types.Part.from_text(text=db_data[0]))
     if image_base64:
         inputs.append(
             genai.types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg")

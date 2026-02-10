@@ -9,8 +9,8 @@ export function useExplainWebSocket(url: string) {
   // const audioRef: Ref<AudioContext> = useRef<AudioContext>(null)
   const open = async () => {
     fetch(
-      // import.meta.env.VITE_PROD_URL,
-      "http://localhost:8000/",
+      import.meta.env.VITE_PROD_URL,
+      // "http://localhost:8000/",
     )
       .then((res) => res.json())
       .then((data) => {
