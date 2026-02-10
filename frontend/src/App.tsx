@@ -27,6 +27,7 @@ function SignIn({ handleUID }: { handleUID: (uid: string) => void }) {
         );
         console.log(res.user);
         setError("");
+        handleUID(res.user.uid);
         return;
       }
       const result = await signInWithPopup(auth, provider);
