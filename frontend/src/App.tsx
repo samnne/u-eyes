@@ -141,8 +141,8 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   // const [thoughtSignatures, setThoughtSignature] = useState([]);
   const { messages, sendMessage, connected, connect } = useExplainWebSocket(
-    import.meta.env.VITE_LOCAL_WS_URL,
-    // import.meta.env.VITE_PROD_WS_URL,
+    // import.meta.env.VITE_LOCAL_WS_URL,
+    import.meta.env.VITE_PROD_WS_URL,
   );
 
   const { currentUser } = auth;
