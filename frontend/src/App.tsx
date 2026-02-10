@@ -148,7 +148,7 @@ function App() {
   const { currentUser } = auth;
 
   const handleUID = (uid: string) => {
-    
+    uid
     setIsSignedIn(true);
   };
 
