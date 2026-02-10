@@ -16,10 +16,12 @@ export function useExplainWebSocket(url: string) {
       .then((data) => {
         console.log(data);
         setAwake(true);
+       
       })
       .catch((err) => {
         console.error("Failed to wake up server:", err);
       });
+    return;
   };
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export function useExplainWebSocket(url: string) {
       open();
       return;
     }
-    connect()
+    connect();
     return () => {
       if (
         wsRef.current?.readyState === WebSocket.OPEN ||
@@ -38,6 +40,7 @@ export function useExplainWebSocket(url: string) {
     };
   }, [url, awake]);
   const connect = useCallback(() => {
+ 
     const socket = new WebSocket(url);
     wsRef.current = socket;
     socket.onopen = () => {
@@ -88,8 +91,6 @@ export function useExplainWebSocket(url: string) {
     socket.onerror = (err) => {
       console.error("WebSocket error:", err);
     };
-
-    
   }, []);
 
   const sendMessage = useCallback((msg: ClientMessage) => {
