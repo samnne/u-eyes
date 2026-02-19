@@ -185,6 +185,4 @@ The following section describes Demo Scenarios.
 
 ## Check it Out Here
 
-**(In Development)**
-Video Demo, and production application coming soon!
-
+[uEyes - Use Now!](https://samnne.github.io/u-eyes)
